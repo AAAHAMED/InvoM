@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, ImageBackground, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../shared/styles';
+import styles from '../../shared/styles';
 
 const WelcomePage = ({ navigation }) => {
     const slideAnim = useRef(new Animated.Value(500)).current; // Initial position for the animation

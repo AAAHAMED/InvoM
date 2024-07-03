@@ -2,14 +2,12 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import WelcomePage from './components/pages/WelcomePage';
-import LoginPage from './components/pages/LoginPage';
+import WelcomePage from './components/pages/login/WelcomePage';
+import LoginPage from './components/pages/login/LoginPage';
 import BottomNav from './components/BottomNav';
-import CameraPage from './components/pages/CameraPage';
-import CalculatorPage from './components/pages/CalculatorPage';
-import GalleryPage from './components/pages/GalleryPage';
-import ImageNamePage from './components/pages/ImageNamePage';
-import SuccessPage from './components/pages/SuccessPage';
+import CameraPage from './components/pages/add/CameraPage';
+import CalculatorPage from './components/pages/home/CalculatorPage';
+import GalleryPage from './components/pages/gallery/GalleryPage';
 import LogoutPage from './components/pages/LogoutPage';
 
 const Stack = createStackNavigator();
@@ -24,8 +22,6 @@ const App = () => {
         <Stack.Screen name="CameraPage" component={CameraPage} />
         <Stack.Screen name="CalculatorPage" component={CalculatorPage} />
         <Stack.Screen name="GalleryPage" component={GalleryPage} />
-        <Stack.Screen name="ImageName" component={ImageNamePage} />
-        <Stack.Screen name="Success" component={SuccessPage} />
         <Stack.Screen name="Logout" component={LogoutPage} />
       </Stack.Navigator>
     </NavigationContainer>

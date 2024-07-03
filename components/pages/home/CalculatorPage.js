@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
-import styles from '../styles/CalculatorPageStyles.js';
+import styles from '../../styles/CalculatorPageStyles';
 
 const buttons = [
   ['AC', '±', '%', '÷'],

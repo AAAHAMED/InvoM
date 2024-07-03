@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, FlatList } from 'react-native';
-import { firebase } from '../../config';
-import styles from '../shared/styles';
+import { firebase } from '../../../config';
+import styles from '../../shared/styles';
 
 const RecentUploadsPage = () => {
     const [images, setImages] = useState([]);

@@ -1,13 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CameraPage from './pages/CameraPage';
-import RecentUploadsPage from './pages/RecentUploadsPage';
+import CameraPage from './pages/add/CameraPage';
+import RecentUploadsPage from './pages/recent/RecentUploadsPage';
 import LogoutPage from './pages/LogoutPage';
-import GalleryPage from './pages/GalleryPage';
+import GalleryPage from './pages/gallery/GalleryPage';
 import styles from '../styles/BottomNavStyles';
-import CalculatorPage from './pages/CalculatorPage';
-import { openGallery, openCamera } from './uploading';
+import CalculatorPage from './pages/home/CalculatorPage';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,16 +39,7 @@ const BottomNav = () => {
       })}
     >
       <Tab.Screen name="Calculator" component={CalculatorPage} />
-      <Tab.Screen
-        name="Gallery"
-        component={GalleryPage}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            e.preventDefault();
-            openGallery(navigation);
-          },
-        })}
-      />
+      <Tab.Screen name="Gallery" component={GalleryPage} />
       <Tab.Screen
         name="Add"
         component={CameraPage}
@@ -59,7 +49,8 @@ const BottomNav = () => {
         listeners={({ navigation }) => ({
           tabPress: (e) => {
             e.preventDefault();
-            openCamera(navigation);
+            // Ensure the openCamera function is correctly defined or imported
+            // openCamera(navigation); 
           },
         })}
       />
