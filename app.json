@@ -24,13 +24,22 @@
       },
       "permissions": [
         "CAMERA"
-      ]
+      ],
+      "package": "com.dilshan1999.InvoM"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "plugins": [
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "00d52315-464e-46b9-8a4c-46238de74078"
+      }
+    }
   }
 }
