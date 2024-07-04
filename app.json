@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "InvoM",
-    "slug": "InvoM",
+    "slug": "invom",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -38,8 +38,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "00d52315-464e-46b9-8a4c-46238de74078"
+        "projectId": "baf762b1-39dd-4bd3-9ab7-ba8ccedad111"
       }
-    }
+    },
+    "owner": "invomapp"
   }
 }
