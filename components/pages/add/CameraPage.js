@@ -1,88 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Camera } from 'expo-camera';
 
-const CameraPage = () => {
+export default function CameraScreen() {
   const [hasPermission, setHasPermission] = useState(null);
-  const [camera, setCamera] = useState(null);
-  const [photo, setPhoto] = useState(null);
+  const cameraRef = useRef(null);
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
+      const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
 
-  const takePicture = async () => {
-    if (camera) {
-      const photo = await camera.takePictureAsync();
-      setPhoto(photo.uri);
-      Alert.alert('Photo Taken', `Photo saved at ${photo.uri}`);
-    }
-  };
-
   if (hasPermission === null) {
-    return <View style={styles.loadingContainer}><Text>Requesting Camera Permission...</Text></View>;
+    return <View />;
   }
   if (hasPermission === false) {
-    return <View style={styles.errorContainer}><Text>No access to camera</Text></View>;
+    return <Text>No access to camera</Text>;
   }
-
   return (
-    <View style={styles.container}>
-      <Camera 
-        style={styles.camera} 
-        type={Camera.Constants.Type.back} 
-        ref={(ref) => setCamera(ref)} 
-      />
-      <TouchableOpacity style={styles.button} onPress={takePicture}>
-        <Text style={styles.buttonText}>Take Picture</Text>
-      </TouchableOpacity>
-      {photo && (
-        <Text style={styles.photoText}>Photo saved at: {photo}</Text>
-      )}
+    <View style={{ flex: 1 }}>
+      <Camera style={{ flex: 1 }} type={Camera.Constants.Type.back} ref={cameraRef}>
+        <View style={styles.cameraControls}>
+          <TouchableOpacity
+            style={styles.flipButton}
+            onPress={() => {
+              if (cameraRef.current) {
+                cameraRef.current.flip();
+              }
+            }}>
+            <Text style={styles.text}> Flip </Text>
+          </TouchableOpacity>
+        </View>
+      </Camera>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
+  cameraControls: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    margin: 20,
+  },
+  flipButton: {
+    flex: 0.1,
+    alignSelf: 'flex-end',
     alignItems: 'center',
   },
-  camera: {
-    flex: 1,
-    width: '100%',
-  },
-  button: {
-    position: 'absolute',
-    bottom: 20,
-    backgroundColor: 'blue',
-    padding: 20,
-    borderRadius: 10,
-  },
-  buttonText: {
-    color: 'white',
+  text: {
     fontSize: 18,
-  },
-  photoText: {
-    position: 'absolute',
-    bottom: 80,
     color: 'white',
-    fontSize: 14,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
-
-export default CameraPage;

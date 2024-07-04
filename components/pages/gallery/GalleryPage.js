@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useIsFocused } from '@react-navigation/native';
+import * as FileSystem from 'expo-file-system';
 
 const GalleryPage = () => {
   const [image, setImage] = useState(null);
@@ -20,37 +21,59 @@ const GalleryPage = () => {
     }
   }, [isFocused]);
 
-const openGallery = async () => {
-  const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  if (!permissionResult.granted) {
-    Alert.alert('Permissions required', 'This app needs gallery permissions to work.');
-    return;
-  }
-  const pickerResult = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    quality: 1
-  });
-  console.log(pickerResult); // Continue logging to debug
-  if (!pickerResult.cancelled && pickerResult.assets && pickerResult.assets.length > 0) {
-    const pickedImageUri = pickerResult.assets[0].uri;
-    if (pickedImageUri) {
-      setImage(pickedImageUri);
-    } else {
-      Alert.alert('Error', 'Failed to get image URI.');
+  const openGallery = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permissionResult.granted) {
+      Alert.alert('Permissions required', 'This app needs gallery permissions to work.');
+      return;
     }
-  } else {
-    Alert.alert('No image selected', 'You did not select any image.');
-  }
-};
+    const pickerResult = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1
+    });
+    if (!pickerResult.canceled && pickerResult.assets && pickerResult.assets.length > 0) {
+      setImage(pickerResult.assets[0].uri);
+    } else {
+      Alert.alert('No image selected', 'You did not select any image.');
+    }
+  };
 
-
-  const uploadImage = () => {
+  const uploadImage = async () => {
     if (!image) {
       Alert.alert('Upload Failed', 'No image URI to upload.');
       return;
     }
-    Alert.alert('Upload', `Image ID: ${imageId}\nType: ${type}\nCompany: ${company}\nDate: ${date.toDateString()}\nImage URI: ${image}`);
+  
+    const formData = new FormData();
+    formData.append('imageId', imageId);
+    formData.append('type', type);
+    formData.append('company', company);
+    formData.append('date', date.toISOString());
+    formData.append('image', {
+      uri: image,
+      type: 'image/jpeg',
+      name: `${imageId}.jpg` // Renaming the image file using the imageId
+    });
+  
+    fetch('https://invom.online/submit.php', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then(response => response.json())
+    .then(responseData => {
+      console.log('Response:', responseData);
+      Alert.alert('Upload', responseData.message);
+    })
+    .catch(error => {
+      Alert.alert('Upload Failed', 'An error occurred while uploading data.');
+      console.error('Upload error:', error);
+    });
   };
+  
+  
 
   return (
     <View style={styles.container}>

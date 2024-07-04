@@ -48,9 +48,8 @@ const BottomNav = () => {
         }}
         listeners={({ navigation }) => ({
           tabPress: (e) => {
-            e.preventDefault();
-            // Ensure the openCamera function is correctly defined or imported
-            // openCamera(navigation); 
+            // Directly navigate to the CameraPage
+            navigation.navigate('Add');
           },
         })}
       />
